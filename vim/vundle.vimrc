@@ -11,6 +11,14 @@ call vundle#rc()
 " Your bundles here
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Bundle 'scrooloose/nerdtree'
+map <C-n> :NERDTreeToggle<CR>
+autocmd vimenter * if !argc() | NERDTree | endif
+
+Bundle 'thinca/vim-ambicmd'
+if globpath(&rtp, 'autoload/ambicmd.vim') != ''
+  cnoremap <expr> <Space> ambicmd#expand("\<Space>")
+  cnoremap <expr> <CR>    ambicmd#expand("\<CR>")
+endif
 
 Bundle 'mileszs/ack.vim'
 
@@ -38,7 +46,7 @@ Bundle 'quentindecock/vim-cucumber-align-pipes'
 Bundle 'robbevan/Vagrantfile.vim'
 
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'bbommarito/vim-slim'
+Bundle 'slim-template/vim-slim'
 Bundle 'juvenn/mustache.vim'
 
 Bundle 'msanders/snipmate.vim'
@@ -57,7 +65,7 @@ Bundle 'mattn/zencoding-vim'
 
 Bundle 'michaeljsmith/vim-indent-object'
 
-Bundle 'avakhov/vim-file-line'
+Bundle 'vim-scripts/file-line'
 
 Bundle 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_start_level = 1
@@ -69,7 +77,7 @@ vnoremap // :TComment<CR>
 Bundle 'vim-scripts/ZoomWin'
 command Z ZoomWin
 
-Bundle 'lucapette/codepath.vim'
+Bundle 'vim-scripts/codepath.vim'
 nnoremap <silent> <F4> :NERDTreeToggle `=codepath#path ()`<cr>
 inoremap <silent> <F4> <Esc>:NERDTreeToggle `=codepath#path()`<cr>
 

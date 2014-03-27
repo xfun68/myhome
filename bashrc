@@ -112,3 +112,5 @@ if [ -d ~/.bash_completion.d ]; then
     done
 fi
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

@@ -86,8 +86,8 @@ export PS1="\n\
 ${Bash_Green}\d \t \u${Bash_Color_Off}\n\
 \w\n\
 ${Bash_Cyan}\$(__git_ps1)${Bash_Color_Off} \
-${Bash_Yellow}[\$(~/.rvm/bin/rvm-prompt)]${Bash_Color_Off}\n\
 \$ "
+# ${Bash_Yellow}[\$(~/.rvm/bin/rvm-prompt)]${Bash_Color_Off}\n\
 
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
@@ -357,21 +357,20 @@ export RUBYOPT="-Ku"
 rvmrc()
 {
   echo 'rvm_install_on_use_flag=1' > .rvmrc
-  echo "rvm --create use ruby-1.9.3-p327@${1:-`basename $(pwd)`}" >> .rvmrc
+  echo "rvm --create use ruby-2.1.1@${1:-`basename $(pwd)`}" >> .rvmrc
   cat .rvmrc 1>&2
   recd
 }
 
 gemfile()
 {
-  echo 'source :rubygems' > Gemfile
+  echo 'source https://rubygems.org' > Gemfile
   echo >> Gemfile
   cat 1>&2 <<-EOF
 Hints:
   -= Gem Sources =-
   source 'http://ruby.taobao.org/'
-  source :rubygems
-  source "http://rubygems.org"
+  source "https://rubygems.org"
   source :rubyforge
   source "http://gems.rubyforge.org"
   source :gemcutter
@@ -537,6 +536,14 @@ vi() {
   log_file="$HOME/tmp/vim_startup_time_$(current_time_string).log"
   mvim --startuptime "${log_file}" "$@"
 }
+
+#########################################################
+## Load chruby
+#########################################################
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+RUBIES=(~/.rvm/rubies/*)
+chruby default
 
 #########################################################
 ## rvm, should be always at the end of this file

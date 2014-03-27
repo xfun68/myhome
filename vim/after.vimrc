@@ -205,6 +205,7 @@ map <silent> <leader>. :let @+=expand('%:p').':'.line('.')<CR>
 
 map <leader>e :Vexplore!<CR><C-W>=
 
+nmap <leader>w :wa<CR>
 nmap <leader>q :q<CR>
 nmap <leader>qa :qa<CR>
 nmap <leader>wq :wq<CR>
@@ -230,8 +231,8 @@ cmap <c-e> <end>
 cnoremap <c-b> <left>
 cnoremap <c-d> <del>
 cnoremap <c-f> <right>
-cnoremap <c-n> <down>
-cnoremap <c-p> <up>
+" cnoremap <c-n> <down>
+" cnoremap <c-p> <up>
 cnoremap <esc><c-b> <s-left>
 cnoremap <esc><c-f> <s-right>
 
@@ -300,8 +301,7 @@ function! TrimWhiteSpace()
     exe "normal `z"
 endfunction
 
-nnoremap <silent> <Leader>rts :call TrimWhiteSpace()<CR>
-nnoremap <silent> <Leader>w :call TrimWhiteSpace()<CR>
+nnoremap <silent> <Leader>s :call TrimWhiteSpace()<CR>
 
 " AutoCommands " {{{
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
