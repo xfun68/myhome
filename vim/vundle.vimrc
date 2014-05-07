@@ -61,7 +61,7 @@ Bundle 'tpope/vim-ragtag'
 
 Bundle 'gregsexton/gitv'
 
-Bundle 'mattn/zencoding-vim'
+Bundle 'mattn/emmet-vim'
 
 Bundle 'michaeljsmith/vim-indent-object'
 
