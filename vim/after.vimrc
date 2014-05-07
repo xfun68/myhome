@@ -305,6 +305,7 @@ nnoremap <silent> <Leader>s :call TrimWhiteSpace()<CR>
 
 " AutoCommands " {{{
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+au BufRead,BufNewFile {*.js,*.json} set ft=javascript tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdown
 au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}           set ft=gitcommit noml list| norm 1G
 au! BufWritePost      *.snippet                                   call ReloadAllSnippets()
