@@ -165,7 +165,7 @@ map <silent> <F11> :set invlist<CR>
 
 if has('gui_running')
   set guioptions=cMg " console dialogs, do not show menu and toolbar
-  set guifont=Monaco\ for\ Powerline:h12
+  " set guifont=Monaco\ for\ Powerline:h12
 
   if has('mac')
     set antialias

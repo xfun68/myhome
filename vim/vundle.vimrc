@@ -75,7 +75,7 @@ nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
 Bundle 'vim-scripts/ZoomWin'
-command Z ZoomWin
+" command Z ZoomWin
 
 Bundle 'vim-scripts/codepath.vim'
 nnoremap <silent> <F4> :NERDTreeToggle `=codepath#path ()`<cr>
