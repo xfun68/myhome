@@ -22,3 +22,4 @@ first-commit()
 }
 
 [ -f ~/.git-completion.bash ] && . ~/.git-completion.bash
+

@@ -92,3 +92,7 @@ alias refresh_dns='sudo killall -HUP mDNSResponder'
 
 alias please='sudo'
 alias wtf='tail -f /var/log/{dmesg,messages,*{,/*}{log,err}}'
+
+cmk() {
+  mkdir "$*" && cd "$*"
+}

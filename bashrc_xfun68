@@ -8,6 +8,8 @@ export LS_COLORS='di=01;33'
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+export HOMEBREW_GITHUB_API_TOKEN=3f3d6ac0c1c7f298995df7ab2399b9b0506be962
+
 # Reset
 Bash_Color_Off='\[\e[0m\]'       # Text Reset
 
@@ -367,8 +369,6 @@ rvmrc()
 
 gemfile()
 {
-  echo 'source https://rubygems.org' > Gemfile
-  echo >> Gemfile
   cat 1>&2 <<-EOF
 Hints:
   -= Gem Sources =-
@@ -411,6 +411,7 @@ Now waiting for your input...
 --------------------------------------------------------------------------------
 EOF
   cat >> Gemfile
+  echo >> Gemfile
   echo "--------------------------------------------------------------------------------" 1>&2
   cat Gemfile 1>&2
 }
