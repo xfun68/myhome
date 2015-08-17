@@ -106,6 +106,10 @@ if [ -f ~/.bashrc_sf_bams ]; then
     . ~/.bashrc_sf_bams
 fi
 
+if [ -f ~/.bashrc_ltdev ]; then
+    . ~/.bashrc_ltdev
+fi
+
 if [ -f ~/.bashrc_xfun68 ]; then
     . ~/.bashrc_xfun68
 fi
@@ -118,3 +122,6 @@ fi
 
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+PERL_MB_OPT="--install_base \"/Users/xfwang/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/xfwang/perl5"; export PERL_MM_OPT;
