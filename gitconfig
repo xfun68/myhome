@@ -31,6 +31,7 @@
   fa = fetch --all
   pr = pull --rebase
   ps = push
+  pp = !git pr && git ps
   rc = rebase --continue
   ri = rebase --interactive
   rcontinue = rebase --continue
