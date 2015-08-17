@@ -546,12 +546,6 @@ vi() {
 #########################################################
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-RUBIES=(~/.rvm/rubies/*)
+RUBIES=(~/.rubies/*)
 chruby default
-
-#########################################################
-## rvm, should be always at the end of this file
-#########################################################
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -r $rvm_path/scripts/completion ]] && source "$rvm_path/scripts/completion"
 

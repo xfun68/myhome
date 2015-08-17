@@ -121,7 +121,5 @@ if [ -d ~/.bash_completion.d ]; then
 fi
 
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 PERL_MB_OPT="--install_base \"/Users/xfwang/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/xfwang/perl5"; export PERL_MM_OPT;
