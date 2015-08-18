@@ -547,6 +547,6 @@ vi() {
 #########################################################
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-RUBIES=(~/.rubies/*)
-chruby default
+RUBIES=(/usr/bin/ruby ~/.rubies/*)
+chruby system
 
