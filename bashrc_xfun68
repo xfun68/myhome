@@ -143,6 +143,11 @@ myhome()
   cd ~/code/myhome
 }
 
+pslisten()
+{
+    echo `lsof -n -i4TCP:$1 | grep LISTEN`
+}
+
 # kill a process using the PID from 'cat xxx.pid'
 kc()
 {
