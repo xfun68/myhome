@@ -363,7 +363,7 @@ fdp2svg()
 ## Ruby
 #########################################################
 # export RUBYOPT=rubygems
-export RUBYOPT="-Ku"
+# export RUBYOPT="-Ku"
 
 rvmrc()
 {
