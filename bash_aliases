@@ -69,7 +69,10 @@ alias spec='be spec --format documentation --color --profile'
 alias g='git'
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
+
 alias d='git diff'
+
+alias gw='./gradlew'
 
 alias sqlplus='rlwrap sqlplus'
 
