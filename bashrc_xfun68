@@ -149,6 +149,11 @@ pslisten()
     lsof -Pn -i4 | grep LISTEN
 }
 
+setjdk()
+{
+  export JAVA_HOME="$(/usr/libexec/java_home -v $*)"
+}
+
 # kill a process using the PID from 'cat xxx.pid'
 kc()
 {

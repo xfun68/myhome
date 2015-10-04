@@ -89,7 +89,7 @@ alias resource='source ~/.bashrc'
 
 alias json_prettify='python -mjson.tool'
 
-alias t='task'
+alias t='tree'
 
 alias refresh_dns='sudo killall -HUP mDNSResponder'
 
