@@ -73,6 +73,8 @@ complete -o default -o nospace -F _git g
 alias d='git diff'
 
 alias gw='./gradlew'
+alias gr='gradle'
+alias gq='gr -q'
 
 alias sqlplus='rlwrap sqlplus'
 
