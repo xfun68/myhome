@@ -101,3 +101,7 @@ alias wtf='tail -f /var/log/{dmesg,messages,*{,/*}{log,err}}'
 cmk() {
   mkdir "$*" && cd "$*"
 }
+
+alias v='vagrant'
+complete -o default -o nospace -F _vagrant v
+
