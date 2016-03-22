@@ -72,9 +72,12 @@ complete -o default -o nospace -F _git g
 
 alias d='git diff'
 
+alias ap='ansible-playbook'
+
 alias gw='./gradlew'
-alias gr='gradle'
 alias gq='gr -q'
+
+alias h='http'
 
 alias sqlplus='rlwrap sqlplus'
 

@@ -94,3 +94,7 @@
   lineNumber = true
 [push]
   default = current
+[filter "lfs"]
+	smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f

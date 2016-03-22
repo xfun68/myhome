@@ -165,12 +165,11 @@ map <silent> <F11> :set invlist<CR>
 
 if has('gui_running')
   set guioptions=cMg " console dialogs, do not show menu and toolbar
-  " set guifont=Monaco\ for\ Powerline:h12
+  set guifont=Monaco:h18
 
   if has('mac')
     set antialias
   else
-    set guifont=Terminus:h16
   end
 endif
 " "}}}
@@ -237,12 +236,13 @@ cnoremap <esc><c-b> <s-left>
 cnoremap <esc><c-f> <s-right>
 
 " Tab configuration
-map <leader>to :tabnew<cr>
-map <leader>td :tabclose<cr>
+map <leader>tn :tabnew<cr>
+map <leader>tc :tabclose<cr>
 map <leader>tn :tabnext<cr>
 map <leader>tp :tabprevious<cr>
 map <leader>te :tabedit
 map <leader>tm :tabmove
+map <leader>tl :tabs<cr>
 
 " Parenthesis/bracket expanding
 vnoremap @( <esc>`>a)<esc>`<i(<esc>

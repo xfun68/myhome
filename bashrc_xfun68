@@ -329,22 +329,26 @@ sdl()
 #########################################################
 ## Graphviz
 #########################################################
+dot2img()
+{
+  filename="${1}"
+  type="${2}"
+
+  if echo "${1}" | egrep -v --quiet '.dot$'; then
+    filename="${filename}.dot"
+  fi
+
+  dot -T${type} "$filename" -O && open "${filename}.${type}"
+}
+
 dot2svg()
 {
-    if [[ -z "$1" ]]; then
-        return 1;
-    fi
-
-    filename=$1; dot -Tsvg "$filename" -O && open "$filename.svg"
+  dot2img "$1" "svg"
 }
 
 dot2png()
 {
-    if [[ -z "$1" ]]; then
-        return 1;
-    fi
-
-    filename=$1; dot -Tpng "$filename" -O && open "$filename.png"
+  dot2img "$1" "png"
 }
 
 neato2png()
@@ -549,8 +553,9 @@ current_time_string() {
 
 
 vi() {
-  log_file="$HOME/tmp/vim_startup_time_$(current_time_string).log"
-  mvim --startuptime "${log_file}" "$@"
+  # log_file="$HOME/.tmp_files/vim/tmp/vim_startup_time_$(current_time_string).log"
+  # mvim --startuptime "${log_file}" "$@"
+  mvim "$@"
 }
 
 #########################################################
@@ -560,4 +565,30 @@ source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 RUBIES=(/usr/bin/ruby ~/.rubies/*)
 chruby system
+
+export ANSIBLE_NOCOWS=1
+
+#########################################################
+## Bash Auto Completion for ssh
+#########################################################
+_complete_ssh_hosts ()
+{
+        COMPREPLY=()
+        cur="${COMP_WORDS[COMP_CWORD]}"
+        comp_ssh_hosts=`cat ~/.ssh/known_hosts | \
+                        cut -f 1 -d ' ' | \
+                        sed -e s/,.*//g | \
+                        grep -v ^# | \
+                        uniq | \
+                        grep -v "\[" ;
+                cat ~/.ssh/config | \
+                        grep "^Host " | \
+                        awk '{print $2}'
+                `
+        COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- $cur))
+        return 0
+}
+
+complete -F _complete_ssh_hosts ssh
+complete -F _complete_ssh_hosts scp
 
