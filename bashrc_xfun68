@@ -474,7 +474,7 @@ EOF
 
 abs()
 {
-  open 'http://tldp.org/LDP/abs/html/'
+  open 'http://tldp.org/LDP/abs/html/refcards.html'
 }
 
 #########################################################
