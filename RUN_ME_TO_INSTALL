@@ -64,6 +64,10 @@ ln_it_to_home "pryrc"
 
 ln_it_to_home "my.cnf"
 
+ln_it_to_home "tigrc"
+
+ln_it_to_home "ansible.cfg"
+
 
 # setup vim
 vim +BundleInstall +qall
