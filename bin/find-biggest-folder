@@ -1,0 +1,6 @@
+#!/bin/sh
+
+folder=${1:?Folder is required!}
+
+sudo find "$folder" -maxdepth 1 -mindepth 1 -print0 | xargs -0 -I{} du -hsm '{}' | sort -n
+

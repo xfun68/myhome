@@ -1,0 +1,29 @@
+#!/bin/sh
+
+IFS=$'\n'
+
+target_folder=${1:-..}
+all_videos=`find . -type f -size +5M | sort | egrep -i '\.(avi|mpg|mov|flv|wmv|asf|mpeg|m4v|divx|mp4|mkv)$'`
+
+for video in $all_videos
+do
+  printf "# Renaming $video ..."
+
+  md5sum=`md5 "$video" | cut -d ' ' -f4`
+  suffix=${video##*.}
+
+  filename=`basename $video`
+  filename_without_suffix=${filename%%.*}
+
+  echo " mv '$video' '${target_folder}/${md5sum}.${suffix}'"
+  mv "$video" "${target_folder}/${md5sum}.${suffix}"
+
+  # if [ "x$filename_without_suffix" != "x$md5sum" ]
+  # then
+  #   echo " mv $video" "${target_folder}/${md5sum}.${suffix}"
+  #   mv   "$video" "${target_folder}/${md5sum}.${suffix}"
+  # else
+  #   echo " already renamed."
+  # fi
+done
+

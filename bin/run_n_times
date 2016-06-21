@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+run_times=${1:?<run_times> is required.}
+shift
+cmd="$*"
+
+for (( i=0; i < $run_times; i=i+1 )); do
+  $cmd
+done
+

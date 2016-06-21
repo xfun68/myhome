@@ -1,0 +1,5 @@
+list_it ()
+{
+  curl "$1" | iconv -c -f GB2312 -t UTF8  | grep '下载' | grep -o '".*"'
+}
+

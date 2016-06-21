@@ -1,0 +1,10 @@
+#!/bin/sh
+
+IFS=$'\n'
+
+target_folder=${1:-../unzipped/pics/}
+
+pic_folders=`find . -type f | egrep -i '\.(jpg|jpeg|png|bmp)$' | cut -d '/' -f 2 | sort -u`
+
+for pic_folder in $pic_folders; do echo $pic_folder; mv "$pic_folder" $target_folder; done
+

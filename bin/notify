@@ -1,0 +1,4 @@
+#!/bin/bash
+
+nohup notify.sh "$@" >/dev/null &
+
