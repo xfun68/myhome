@@ -4,6 +4,28 @@ All of my customized stuff are here.
 
 -------------------------------------------------------------------------
 
+### Install other apps
+
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update && brew upgrade
+brew install chruby
+brew install watch
+brew install task
+brew cask install iterm2-nightly
+brew cask install nosleep
+brew cask install spectacle
+brew cask install alfred evernote dropbox skype mailplane wechat
+brew cask install sogouinput
+brew cask install macvim
+brew cask install pomotodo
+```
+
+Apps need manually install:
+
+wechat: http://weixin.qq.com/cgi-bin/readtemplate?t=mac&lang=zh_CN
+OmniFocus
+
 ### Usage
 
 ```bash
