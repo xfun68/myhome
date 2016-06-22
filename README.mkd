@@ -12,6 +12,7 @@ brew update && brew upgrade
 brew install chruby
 brew install watch
 brew install task
+brew install tree
 brew cask install iterm2-nightly
 brew cask install nosleep
 brew cask install spectacle
