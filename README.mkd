@@ -20,6 +20,8 @@ brew cask install alfred evernote dropbox skype mailplane wechat
 brew cask install sogouinput
 brew cask install macvim
 brew cask install pomotodo
+brew cask install slack
+brew cask install atom
 ```
 
 Apps need manually install:
