@@ -1,0 +1,240 @@
+#!/bin/bash
+
+# For local dev and runtime env
+export GOCD_HOME=/Users/xfwang/code/work/hw/gocd2
+export GOCD_ENV_NAME=local
+# export SPRING_PROFILES_ACTIVE=e2e
+
+# For accessing k8s cluster
+export K8S_MASTER_HOST=10.202.129.184
+
+# For developers
+alias codebase='open http://codebase:9000/groups'
+alias ci='open http://go-nexus:8153/'
+alias repo='open http://go-nexus/'
+alias gps="ps aux | grep -v grep | grep com.huawei.gocd | sed 's/-D.* //g' | sed 's/-cp .*.jar//g' | sed 's/\/Library\/.*java//g' | cat -n"
+alias gka="ps aux | grep com.huawei.gocd.* | grep -v grep | tr -s "[:blank:]" | cut -d' ' -f2 | xargs kill"
+alias board='open https://trello.com/b/tD2qCudJ/huawei-gocd2'
+alias wiki='open http://go-nexus:9000/helicarrier/doc/wikis/home'
+
+alias k8s-dashboard="open http://${K8S_MASTER_HOST}:32048/"
+
+alias tracing-localhost='open http://localhost:30098/'
+alias tracing-dev="open http://${K8S_MASTER_HOST}:30098/"
+alias tracing-qa="open http://${K8S_MASTER_HOST}:31098/"
+alias tracing-e2e="open http://${K8S_MASTER_HOST}:32098/"
+
+# For Tabata workout
+alias tabata='open http://www.tabatatimer.com/'
+
+SERVICES=( "mongodb" "zookeeper" "kafka" )
+LOCAL_APPS=( "agent" "scheduler" "job" "executor" "pipeline" "api-gateway" )
+
+function list-apps {
+    gps
+}
+
+function list-services {
+    brew services list
+}
+
+function is_service {
+    local name=${1:?Name is required!}
+
+    for service_name in ${SERVICES[@]}; do
+        [[ x"$service_name" == x"$name" ]] && return 0
+    done
+
+    return 1
+}
+
+function start {
+    for name in $@
+    do
+      if is_service $name
+      then
+          start-service $name
+      else
+          start-app $name
+      fi
+    done
+}
+
+function stop {
+    for name in $@
+    do
+      if is_service $name
+      then
+          stop-service $name
+      else
+          stop-app $name
+      fi
+    done
+}
+
+function restart {
+    for name in $@
+    do
+      if is_service $name
+      then
+        restart-service $name
+      else
+        restart-app $name
+      fi
+    done
+}
+
+function start-service {
+    local service_name=${1:?Service name is required!}
+    brew services start $service_name
+}
+
+function stop-service {
+    local service_name=${1:?Service name is required!}
+    brew services stop $service_name
+}
+
+function restart-service {
+    local service_name=${1:?Service name is required!}
+    brew services restart $service_name
+}
+
+function start-app {
+    local app_name=${1:?Application name is required!}
+
+    if gps | grep -q -i "${app_name//-/}Application"
+    then
+        echo Application $app_name is already running.
+    else
+        ( cd $GOCD_HOME/$app_name && nohup ./gradlew --no-daemon clean run 2>&1 > output.log & )
+    fi
+}
+
+function is-app-running {
+    local app_name=${1:?Application name is required!}
+    gps | grep -i "${app_name//-/}Application"
+    return $?
+}
+
+function stop-app {
+    local app_name=${1:?Application name is required!}
+    while is-app-running $app_name 1>/dev/null; do
+        gps | grep -i "${app_name//-/}Application" | tr -s ' ' | cut -d ' ' -f 3 | xargs kill
+        sleep 1
+    done
+}
+
+function restart-app {
+    local app_name=${1:?Application name is required!}
+    stop-app $app_name
+    sleep 5
+    start-app $app_name
+}
+
+function start-all-apps {
+    for app_name in ${LOCAL_APPS[@]}; do
+        echo "Starting application: $app_name"
+        start-app $app_name
+    done
+}
+
+function stop-all-apps {
+    for app_name in ${LOCAL_APPS[@]}; do
+        echo "Stopping application: $app_name"
+        stop-app $app_name
+    done
+}
+
+function restart-all-apps {
+    for app_name in ${LOCAL_APPS[@]}; do
+        echo "Restarting application: $app_name"
+        restart-app $app_name
+    done
+}
+
+function log {
+    local app_name=${1:-`basename $PWD`}
+    tail -n100 -f $GOCD_HOME/$app_name/output.log
+}
+
+function list-topics {
+    kafka-topics --zookeeper localhost:2181 --list
+}
+
+function desc-topic {
+    local topic_name=${1:?Topic name is required!}
+    kafka-topics --zookeeper localhost:2181 --describe --topic $topic_name
+}
+
+function create-topic {
+    local topic_name=${1:?Topic name is required!}
+    local partitions=${2:-10}
+    kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions $partitions --topic $topic_name
+}
+
+function delete-topic {
+    local topic_name=${1:?Topic name is required!}
+    kafka-topics --delete --zookeeper localhost:2181 --topic $topic_name
+}
+
+function delete-all-topics {
+    for topic_name in `list-topics`; do
+        if [[ x"$topic_name" != x"__consumer_offsets" ]]; then
+            echo
+            echo "# Deleting topic '$topic_name'"
+            echo
+            delete-topic $topic_name
+        fi
+    done
+}
+
+function list-groups {
+    kafka-consumer-groups --bootstrap-server localhost:9092 --list
+}
+
+function desc-group {
+    local group_name=${1:?Group name is required!}
+    kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group $group_name
+}
+
+function list-all-dbs {
+    local env_name=${1:-local}
+    local host=localhost
+
+    mongo --quiet --host $host --eval "db.getMongo().getDBNames()" | tr ',' '\n' | grep "${env_name}\-" | cut -d'"' -f 2 | sort
+}
+
+function drop-db {
+    local host=localhost
+
+    for db_name in $@; do
+        mongo $db_name --host $host --eval "db.dropDatabase()";
+    done
+}
+
+function drop-all-dbs {
+    local env_name=${1:-local}
+    local host=localhost
+
+    for db_name in $(mongo --quiet --host $host --eval "db.getMongo().getDBNames()" | tr ',' '\n' | grep "${env_name}\-" | cut -d'"' -f 2 | sort | xargs); do
+        drop-db $db_name
+    done
+}
+
+function exec-pipeline {
+    local project_id=${1:?Project ID is required!}
+    local pipeline_id=${2:?Pipeline ID is required!}
+    echo "Execute pipeline $pipeline_id"
+    h POST :30000/projects/${project_id}/pipelines/${pipeline_id}/execute
+}
+
+alias ls-topic=list-topics
+alias show-topic=desc-topic
+alias show-group=desc-group
+alias rm-topic=delete-topic
+alias rm-all-topics=delete-all-topics
+
+alias ls-db=list-all-dbs
+alias rm-db=drop-db
+alias rm-all-dbs=drop-all-dbs
+
