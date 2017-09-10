@@ -1,0 +1,156 @@
+#!/bin/bash -e
+
+# For developers
+alias board='open https://trello.com/b/u5PGv5aW/%E8%BF%AD%E4%BB%A3%E4%B8%80%EF%BC%88828-98%EF%BC%89'
+alias codebase='open https://gitlab.com/ShanghaiAirport'
+alias ci='open http://106.15.61.164:8153/go/pipelines'
+alias local-env='open http://127.0.0.1:8000/#/campaign'
+alias qa-env='open https://106.15.62.84:8888/#/campaign'
+alias uat-env='open https://106.15.61.164:8888/#/campaign'
+alias prod-env='open https://106.15.124.171:8888/#/campaign'
+alias prod-show-campaigns-info='open http://180.168.176.106/dispatcher/campaigns/info'
+alias uat-campaigns-info='open http://106.15.61.164:8005/campaigns/info'
+alias qa-dispatcher-campaigns-info='open http://106.15.62.84:8005/campaigns/info'
+alias dispatcher-mongodb-qa='open http://106.15.62.84:8003/'
+alias dispatcher-mongodb-uat='open http://106.15.61.164:8003/'
+alias dispatcher-mongodb-prod='open http://180.168.176.106:8003/'
+
+function url_demo() {
+    echo 'url_demo-http://172.21.163.16:8889?airport=PD&pre_AD=5948c5714149c40007ce29ba&login_AD=5948c2b04149c40007ce29b8&post_AD=5948c22d4149c40007ce29b7&postlink=http://www.shanghaiairport.com/&mac=64:b0:a6:99:69:e2&switchip=172.21.175.248&sessionID=0005bda3-d385-4993-b6c6-24eb83e7e8cd'
+}
+function raw_url_demo() {
+    echo 'raw_url_demo-http://172.21.163.15:8005/?cmd=login&switchip=172.21.175.248&mac=64:b0:a6:99:69:e2&UIP=1.1.11.11&ip=172.21.171.197&essid=%23AirportPVG%2DFree%2DWiFi&apname=T1-ZL0-06&apgroup=T1-ZL06_0&url=http%3A%2F%2Fwww%2Eapple%2Ecom%2F'
+}
+
+function backup-campaigns-info() {
+    local folder="$HOME/code/work/shanghai-airport/data/backup/campaigns-info"
+    [ ! -d $folder ] && mkdir -p $folder
+
+    file="${folder}/campaigns-info_$(date '+%Y-%m-%d_%H-%M-%S').json"
+    curl 'http://180.168.176.106/dispatcher/campaigns/info' --silent | json_prettify > $file
+    echo $file
+}
+
+declare -A envs
+
+envs['env_prod_collector_pd']='180.168.176.106'
+envs['env_prod_collector_hq']='140.206.56.166'
+
+function pvcount() {
+    SERVICE='collector'
+    local HOST="${envs["env_${ENV}_${SERVICE}_${AIRPORT}"]}"
+
+    if [ -z $HOST ]
+    then
+        echo "Collector not found for ENV='$ENV' SERVICE='$SERVICE' AIRPORT='$AIRPORT'" 1>&2
+        return 1
+    fi
+
+    local URL="http://${HOST}/collector/v1/pvcount"
+    echo "# $URL" 1>&2
+
+    curl --silent $URL | json_prettify
+}
+
+# Alfred code starts here #####################################################
+
+DEFAULT_ENV='local'
+
+function _type() {
+    type -t "$@" > /dev/null
+}
+
+function parse_as_env() {
+    local arg="${1:?At least one arg is required!}"
+    # echo "parse_as_env: '$arg'"
+
+    case "${arg}" in
+        local | qa | uat | prod )
+            ENV="${arg}"
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+function parse_as_airport() {
+    local arg="${1:?At least one arg is required!}"
+    # echo "parse_as_airport: '$arg'"
+
+    case "${arg}" in
+        pd | hq )
+            AIRPORT="${arg}"
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+function show() {
+    if [ $# -lt 1 ]
+    then
+        return 0
+    fi
+
+    local subcommand="$1"
+
+    if _type "$subcommand"
+    then
+        "$subcommand" "$@"
+        return $?
+    elif _type "show-$subcommand"
+    then
+        "show-$subcommand" "$@"
+        return $?
+    else
+        echo "Sorry sir, I cannot find command \`$subcommand\` or \`show-$subcommand\` for you." 1>&2
+        return 111
+    fi
+}
+
+function execute() {
+    local command="$1"
+
+    if _type "$command"
+    then
+        shift
+        "$command" "$@"
+        return $?
+    else
+        echo "Sorry sir, I don't understand what you said, please try other commands." 1>&2
+        return 101
+    fi
+}
+
+function alfred() {
+    ENV="$DEFAULT_ENV"
+    SERVICE=''
+    AIRPORT=''
+
+    declare -a arguments
+
+    for arg in "$@"; do
+        parse_as_env "$arg" || \
+            parse_as_airport "$arg" || \
+            arguments+=("$arg")
+    done
+
+    local args_count=${#arguments[@]}
+    if [ $args_count -gt 0 ]
+    then
+        execute "${arguments[@]}"
+    else
+        echo '--------------------------------------------------------'
+        echo "ENV='${ENV}'"
+        echo "AIRPORT='${AIRPORT}'"
+        echo '--------------------------------------------------------'
+    fi
+
+}
+
+alias a='alfred'
+
