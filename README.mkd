@@ -22,6 +22,9 @@ brew cask install macvim
 brew cask install pomotodo
 brew cask install slack
 brew cask install atom
+
+brew tap pivotal/tap
+brew install springboot
 ```
 
 Apps need manually install:

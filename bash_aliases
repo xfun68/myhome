@@ -70,8 +70,6 @@ alias g='git'
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
 
-alias d='git diff'
-
 alias ap='ansible-playbook'
 
 alias gw='./gradlew'
@@ -92,7 +90,7 @@ alias Downloads='cd ~/Downloads/'
 
 alias resource='source ~/.bashrc'
 
-alias json_prettify='python -mjson.tool'
+alias json_prettify='python -mjson.tool 2>/dev/null'
 
 alias t='tree'
 
@@ -107,4 +105,10 @@ cmk() {
 
 alias v='vagrant'
 complete -o default -o nospace -F _vagrant v
+
+alias d='docker'
+complete -o default -o nospace -F _docker d
+
+alias c='docker-compose'
+complete -o default -o nospace -F _docker_compose c
 

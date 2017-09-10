@@ -102,24 +102,26 @@ fi
 #     . ~/.hermes.go
 # fi
 
-if [ -f ~/.bashrc_sf_bams ]; then
-    . ~/.bashrc_sf_bams
-fi
+# if [ -f ~/.bashrc_sf_bams ]; then
+#     . ~/.bashrc_sf_bams
+# fi
+#
+# if [ -f ~/.bashrc_ltdev ]; then
+#     . ~/.bashrc_ltdev
+# fi
 
-if [ -f ~/.bashrc_ltdev ]; then
-    . ~/.bashrc_ltdev
-fi
+[ -f ~/.bashrc_jcdecaux ] && . ~/.bashrc_jcdecaux
 
 if [ -f ~/.bashrc_xfun68 ]; then
     . ~/.bashrc_xfun68
 fi
 
-if [ -d ~/.bash_completion.d ]; then
-    for completion_file in `ls ~/.bash_completion.d/`; do
-      . "$HOME/.bash_completion.d/$completion_file"
-    done
-fi
-
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 PERL_MB_OPT="--install_base \"/Users/xfwang/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/xfwang/perl5"; export PERL_MM_OPT;
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/xfwang/.sdkman"
+[[ -s "/Users/xfwang/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/xfwang/.sdkman/bin/sdkman-init.sh"

@@ -9,3 +9,7 @@ export PATH
 
 test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
 
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/xfwang/.sdkman"
+[[ -s "/Users/xfwang/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/xfwang/.sdkman/bin/sdkman-init.sh"
