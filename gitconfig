@@ -8,7 +8,7 @@
   autocrlf = input
   pager = less -FRSX
   editor = /usr/bin/vim
-	excludesfile = /Users/xfwang/.gitignore_global
+  excludesfile = /Users/xfwang/.gitignore_global
 [merge]
   tool = vimdiff
 [alias]
@@ -97,6 +97,7 @@
 [push]
   default = current
 [filter "lfs"]
-	smudge = git-lfs smudge %f
-	required = true
-	clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  clean = git-lfs clean %f
+  required = true
+

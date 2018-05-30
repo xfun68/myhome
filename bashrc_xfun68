@@ -3,6 +3,7 @@
 #########################################################
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$HOME/bin:/usr/local/git/bin:/usr/local/mysql/bin:/usr/local/bin:$HOME/opt/radrails:$HOME/opt/nginx/sbin:$HOME/opt/eclipse:$PATH
+export PATH="/usr/local/opt/erlang@19/bin:$PATH"
 export NODE_PATH=/usr/local/lib/jsctags/:$NODE_PATH
 export LS_COLORS='di=01;33'
 
@@ -253,16 +254,16 @@ top-ten()
 #########################################################
 ## ssh
 #########################################################
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-    echo "Initializing new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
+# SSH_ENV="$HOME/.ssh/environment"
+#
+# function start_agent {
+#     echo "Initializing new SSH agent..."
+#     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+#     echo succeeded
+#     chmod 600 "${SSH_ENV}"
+#     . "${SSH_ENV}" > /dev/null
+#     /usr/bin/ssh-add;
+# }
 
 # Source SSH settings, if applicable
 # if [ -f "${SSH_ENV}" ]; then
@@ -433,13 +434,6 @@ EOF
 }
 
 #########################################################
-## Homebrew autocompletion
-#########################################################
-
-HOMEBREW_COMPLETION_FILE="`brew --prefix`/etc/bash_completion"
-[ -f ${HOMEBREW_COMPLETION_FILE} ] && . ${HOMEBREW_COMPLETION_FILE}
-
-#########################################################
 ## preview - Call program preview from command line
 #########################################################
 preview() {
@@ -546,17 +540,19 @@ disconnect_vpn() {
 }
 
 #########################################################
-## Autojump
-#########################################################
-
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-
-#########################################################
 ## Current Time String
 #########################################################
 
-current_time_string() {
-  date "+%Y-%m-%d_%H:%M:%S"
+current-time-string() {
+  date "+%Y-%m-%d %H:%M:%S"
+}
+
+to-unix-timestamp() {
+  date -j -f '%Y-%m-%d %H:%M:%S' "$@" '+%s'
+}
+
+to-time-string() {
+  date -r ${1:0:10}
 }
 
 
@@ -565,16 +561,6 @@ vi() {
   # mvim --startuptime "${log_file}" "$@"
   mvim "$@"
 }
-
-#########################################################
-## Load chruby
-#########################################################
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-RUBIES=(/usr/bin/ruby ~/.rubies/*)
-chruby system
-
-export ANSIBLE_NOCOWS=1
 
 #########################################################
 ## Bash Auto Completion for ssh
@@ -601,10 +587,40 @@ complete -F _complete_ssh_hosts ssh
 complete -F _complete_ssh_hosts scp
 
 #########################################################
-## Configuration for git-run (aka gr)
+## Docker
 #########################################################
-alias grs="gr status"
-alias grl="gr git --no-pager log --decorate --graph --oneline -n 5"
+
+function recreate-container() {
+  local service_name=${1:?Service Name is required!}
+  docker-compose stop ${service_name} && docker-compose rm -f ${service_name} && docker-compose up -d ${service_name}
+}
+
+#########################################################
+## Ansible
+#########################################################
+
+export ANSIBLE_NOCOWS=1
+
+#########################################################
+## Homebrew autocompletion
+#########################################################
+
+HOMEBREW_COMPLETION_FILE="`brew --prefix`/etc/bash_completion"
+[ -f ${HOMEBREW_COMPLETION_FILE} ] && . ${HOMEBREW_COMPLETION_FILE}
+
+#########################################################
+## Autojump
+#########################################################
+
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+#########################################################
+## Load chruby
+#########################################################
+# source /usr/local/share/chruby/chruby.sh
+# source /usr/local/share/chruby/auto.sh
+# RUBIES=(/usr/bin/ruby ~/.rubies/*)
+# chruby system
 
 #########################################################
 ## Configuration for nvm

@@ -2,6 +2,7 @@
 
 # For developers
 alias board='open https://trello.com/b/u5PGv5aW/%E8%BF%AD%E4%BB%A3%E4%B8%80%EF%BC%88828-98%EF%BC%89'
+alias kanban='open https://shanghaidel3.atlassian.net/secure/RapidBoard.jspa?projectKey=AP4&rapidView=8'
 alias codebase='open https://gitlab.com/ShanghaiAirport'
 alias ci='open http://106.15.61.164:8153/go/pipelines'
 alias local-env='open http://127.0.0.1:8000/#/campaign'
@@ -153,4 +154,26 @@ function alfred() {
 }
 
 alias a='alfred'
+
+stat-git-commits() {
+    cat ~/tmp/logs | grep -v root | sed \
+        -e 's/ruyu You/YOU Ruyu/' \
+        -e 's/Ruyu You/YOU Ruyu/' \
+        -e 's/RuyuYou/YOU Ruyu/' \
+        -e 's/Zhe Zhang/ZHANG Zhe/' \
+        -e 's/Xiaoqi Cao/CAO Xiaoqi/' \
+        -e 's/Cao Xiaoqi/CAO Xiaoqi/' \
+        -e 's/Pu Wang/WANG Pu/' \
+        -e 's/zeng-ge/ZENG Ge/' \
+        -e 's/zengge/ZENG Ge/' \
+        -e 's/Xiaofeng Wang/WANG Xiaofeng/' \
+        -e 's/yueli/LI Yue/' \
+        -e 's/Yue Li/LI Yue/' \
+        -e 's/LYTW/LI Yue/' \
+        -e 's/lgliu/LIU Ligen/' \
+        -e 's/guzhan/LIU Ligen/' \
+        -e 's/Shuangqi Li/LI Shuangqi/' \
+        -e 's/YiKai Jia/JIA Yikai/' | \
+        sort | uniq -c | sort -n
+}
 

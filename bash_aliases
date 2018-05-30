@@ -92,6 +92,20 @@ alias resource='source ~/.bashrc'
 
 alias json_prettify='python -mjson.tool 2>/dev/null'
 
+function json_prettify_it() {
+    filename=${1:?Target file is required!}
+    filename_orig=${filename}.original
+    filename_prettified=${filename}.prettified
+
+    cp ${filename} ${filename_orig}
+
+    cat $filename | json_prettify > ${filename_prettified}
+
+    mv ${filename_prettified} ${filename}
+}
+
+alias json-prettify-it='json_prettify_it'
+
 alias t='tree'
 
 alias refresh_dns='sudo killall -HUP mDNSResponder'
@@ -102,6 +116,12 @@ alias wtf='tail -f /var/log/{dmesg,messages,*{,/*}{log,err}}'
 cmk() {
   mkdir "$*" && cd "$*"
 }
+
+#########################################################
+## Configuration for git-run (aka gr)
+#########################################################
+alias grs="gr status"
+alias grl="gr git --no-pager log --decorate --graph --oneline -n 5"
 
 alias v='vagrant'
 complete -o default -o nospace -F _vagrant v
