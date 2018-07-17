@@ -615,6 +615,15 @@ HOMEBREW_COMPLETION_FILE="`brew --prefix`/etc/bash_completion"
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
 #########################################################
+## Git
+#########################################################
+
+if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+    __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+    source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+fi
+
+#########################################################
 ## Load chruby
 #########################################################
 # source /usr/local/share/chruby/chruby.sh
