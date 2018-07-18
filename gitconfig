@@ -12,7 +12,7 @@
 [merge]
   tool = vimdiff
 [alias]
-  a  = add -p
+  a  = add
   ap = add -p
   s  = status -sb
   st = status -sb
