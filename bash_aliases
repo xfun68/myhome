@@ -70,6 +70,10 @@ alias g='git'
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
 
+alias y='yarn'
+# Autocomplete for 'y' as well
+complete -o default -o nospace -F _yarn y
+
 alias ap='ansible-playbook'
 
 alias gw='./gradlew'

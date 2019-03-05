@@ -112,11 +112,11 @@ fi
 
 # [ -f ~/.bashrc_jcdecaux ] && . ~/.bashrc_jcdecaux
 
+[ -f ~/.bashrc_fusion_insight ] && . ~/.bashrc_fusion_insight
+
 if [ -f ~/.bashrc_xfun68 ]; then
     . ~/.bashrc_xfun68
 fi
-
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # PERL_MB_OPT="--install_base \"/Users/xfwang/perl5\""; export PERL_MB_OPT;
 # PERL_MM_OPT="INSTALL_BASE=/Users/xfwang/perl5"; export PERL_MM_OPT;
