@@ -54,6 +54,7 @@
   #   la = all commits, all reachable refs
   l = log --graph --pretty=format:'%C(yellow)%h%Creset %C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit
   la = !git l --all | cat -n | less -R
+  spp = !git stash && git pp && git stash pop
   head = !git l -1
   h = !git head
   hp = "!source ~/.githelpers && show_git_head"
@@ -101,3 +102,5 @@
   clean = git-lfs clean %f
   required = true
 
+[http]
+	sslVerify = false
